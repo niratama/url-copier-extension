@@ -1,0 +1,91 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+    max-width: 600px;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.template-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.template-inputs {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input[type="text"],
+textarea {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+button {
+    cursor: pointer;
+    padding: 5px 10px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    height: fit-content;
+}
+
+button:hover {
+    background: #e0e0e0;
+}
+
+button.delete {
+    color: red;
+    border-color: #ffcccb;
+    background: #fff0f0;
+}
+
+button.delete:hover {
+    background: #ffe0e0;
+}
+
+#add-btn {
+    background: #e0f7fa;
+    border-color: #b2ebf2;
+    color: #006064;
+    margin-top: 10px;
+}
+
+#save-btn {
+    background: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #1b5e20;
+    margin-top: 20px;
+    font-weight: bold;
+    padding: 8px 16px;
+}
+
+#reset-btn {
+    margin-top: 20px;
+    margin-left: 10px;
+    color: #666;
+}
+
+.help-text {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 20px;
+}

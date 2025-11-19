@@ -121,11 +121,20 @@ async function addToClipboard(text) {
     await setupOffscreenDocument('offscreen.html');
 
     // Send message to offscreen document
-    chrome.runtime.sendMessage({
+    const response = await chrome.runtime.sendMessage({
         type: 'copy-data',
         target: 'offscreen-doc',
         data: text
     });
+
+    if (!response || !response.success) {
+        chrome.notifications.create({
+            type: 'basic',
+            iconUrl: 'icon.png',
+            title: chrome.i18n.getMessage('extName'),
+            message: 'Failed to copy to clipboard.'
+        });
+    }
 }
 
 let creating; // A global promise to avoid concurrency issues

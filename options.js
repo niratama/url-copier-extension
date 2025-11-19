@@ -58,7 +58,7 @@ async function saveOptions() {
         const format = item.querySelector('.format-input').value;
         if (name && format) {
             templates.push({
-                id: 'custom_' + Date.now() + '_' + index, // Simple unique ID generation
+                id: crypto.randomUUID(),
                 name,
                 format
             });

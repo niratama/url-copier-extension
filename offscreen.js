@@ -1,6 +1,9 @@
-chrome.runtime.onMessage.addListener(handleMessages);
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  handleMessages(message, sendResponse);
+  return true; // Keep channel open for async response
+});
 
-async function handleMessages(message) {
+async function handleMessages(message, sendResponse) {
   if (message.target !== 'offscreen-doc') {
     return;
   }
@@ -10,6 +13,7 @@ async function handleMessages(message) {
     const textArea = document.querySelector('#text');
     textArea.value = text;
     textArea.select();
-    document.execCommand('copy');
+    const result = document.execCommand('copy');
+    sendResponse({ success: result });
   }
 }
