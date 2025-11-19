@@ -1,0 +1,66 @@
+{
+    "extName": {
+        "message": "URL Copier",
+        "description": "Extension name"
+    },
+    "extDesc": {
+        "message": "Copy URL and Title in various formats.",
+        "description": "Extension description"
+    },
+    "copyAllTabs": {
+        "message": "Copy All Tabs",
+        "description": "Context menu item to copy all tabs"
+    },
+    "optionsTitle": {
+        "message": "URL Copier Options",
+        "description": "Title of the options page"
+    },
+    "optionsHelp": {
+        "message": "Use $TITLE$ and $URL$ as placeholders.",
+        "description": "Help text in options page",
+        "placeholders": {
+            "title": {
+                "content": "{{title}}"
+            },
+            "url": {
+                "content": "{{url}}"
+            }
+        }
+    },
+    "addTemplateBtn": {
+        "message": "+ Add Template",
+        "description": "Button to add a new template"
+    },
+    "saveBtn": {
+        "message": "Save Changes",
+        "description": "Button to save changes"
+    },
+    "resetBtn": {
+        "message": "Reset to Defaults",
+        "description": "Button to reset templates"
+    },
+    "deleteBtn": {
+        "message": "Delete",
+        "description": "Button to delete a template"
+    },
+    "templateNamePlaceholder": {
+        "message": "Template Name",
+        "description": "Placeholder for template name input"
+    },
+    "formatPlaceholder": {
+        "message": "Format (e.g. [{{title}}]({{url}}))",
+        "description": "Placeholder for format input"
+    },
+    "savedMsg": {
+        "message": "Saved!",
+        "description": "Message shown after saving"
+    },
+    "saveErrorMsg": {
+        "message": "Failed to save templates. You might have exceeded the storage quota (100KB).\n\nError: ",
+        "description": "Error message when save fails"
+    },
+    "resetConfirmMsg": {
+        "message": "Are you sure you want to reset all templates to default?",
+        "description": "Confirmation message for reset"
+    }
+}

@@ -21,8 +21,37 @@
             margin-bottom: 10px;
             border-radius: 4px;
             display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .template-inputs {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 5px 10px;
+            background: #f0f0f0;
             border: 1px solid #ccc;
             border-radius: 3px;
+            height: fit-content;
         }
 
         button:hover {
@@ -70,18 +99,18 @@
 </head>
 
 <body>
-    <h1>URL Copier Templates</h1>
-    <div class="help-text">
+    <h1 data-i18n="optionsTitle">URL Copier Options</h1>
+    <div class="help-text" data-i18n="optionsHelp">
         Use <code>{{title}}</code> and <code>{{url}}</code> as placeholders.
     </div>
 
     <div id="templates-container"></div>
 
-    <button id="add-btn">+ Add Template</button>
+    <button id="add-btn" data-i18n="addTemplateBtn">+ Add Template</button>
 
     <div>
-        <button id="save-btn">Save Changes</button>
-        <button id="reset-btn">Reset to Defaults</button>
+        <button id="save-btn" data-i18n="saveBtn">Save Changes</button>
+        <button id="reset-btn" data-i18n="resetBtn">Reset to Defaults</button>
     </div>
 
     <script src="options.js"></script>

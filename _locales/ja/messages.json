@@ -1,0 +1,66 @@
+{
+    "extName": {
+        "message": "URL Copier",
+        "description": "Extension name"
+    },
+    "extDesc": {
+        "message": "URLとタイトルを様々な形式でコピーします。",
+        "description": "Extension description"
+    },
+    "copyAllTabs": {
+        "message": "すべてのタブをコピー",
+        "description": "Context menu item to copy all tabs"
+    },
+    "optionsTitle": {
+        "message": "URL Copier 設定",
+        "description": "Title of the options page"
+    },
+    "optionsHelp": {
+        "message": "プレースホルダーとして $TITLE$ と $URL$ が使えます。",
+        "description": "Help text in options page",
+        "placeholders": {
+            "title": {
+                "content": "{{title}}"
+            },
+            "url": {
+                "content": "{{url}}"
+            }
+        }
+    },
+    "addTemplateBtn": {
+        "message": "+ テンプレートを追加",
+        "description": "Button to add a new template"
+    },
+    "saveBtn": {
+        "message": "変更を保存",
+        "description": "Button to save changes"
+    },
+    "resetBtn": {
+        "message": "初期設定に戻す",
+        "description": "Button to reset templates"
+    },
+    "deleteBtn": {
+        "message": "削除",
+        "description": "Button to delete a template"
+    },
+    "templateNamePlaceholder": {
+        "message": "テンプレート名",
+        "description": "Placeholder for template name input"
+    },
+    "formatPlaceholder": {
+        "message": "フォーマット (例: [{{title}}]({{url}}))",
+        "description": "Placeholder for format input"
+    },
+    "savedMsg": {
+        "message": "保存しました！",
+        "description": "Message shown after saving"
+    },
+    "saveErrorMsg": {
+        "message": "保存に失敗しました。保存容量(100KB)を超えている可能性があります。\n\nエラー: ",
+        "description": "Error message when save fails"
+    },
+    "resetConfirmMsg": {
+        "message": "本当にすべてのテンプレートを初期設定に戻しますか？",
+        "description": "Confirmation message for reset"
+    }
+}

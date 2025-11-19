@@ -38,7 +38,7 @@ async function createContextMenus() {
     // Parent menu
     chrome.contextMenus.create({
         id: 'parent',
-        title: 'URL Copier',
+        title: chrome.i18n.getMessage('extName'),
         contexts: ['all']
     });
 
@@ -63,7 +63,7 @@ async function createContextMenus() {
     chrome.contextMenus.create({
         id: 'copy_all',
         parentId: 'parent',
-        title: 'Copy All Tabs',
+        title: chrome.i18n.getMessage('copyAllTabs'),
         contexts: ['all']
     });
 }

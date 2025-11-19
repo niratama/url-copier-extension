@@ -6,10 +6,21 @@ const DEFAULT_TEMPLATES = [
     { id: 'text2', name: 'Two line text', format: '{{title}}\n{{url}}' }
 ];
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
+document.addEventListener('DOMContentLoaded', () => {
+    restoreOptions();
+    localizeHtml();
+});
 document.getElementById('save-btn').addEventListener('click', saveOptions);
 document.getElementById('add-btn').addEventListener('click', addTemplateUI);
 document.getElementById('reset-btn').addEventListener('click', resetOptions);
+
+function localizeHtml() {
+    document.querySelectorAll('[data-i18n]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n');
+        const msg = chrome.i18n.getMessage(key);
+        if (msg) elem.textContent = msg;
+    });
+}
 
 async function restoreOptions() {
     const { templates } = await chrome.storage.sync.get('templates');
@@ -29,10 +40,10 @@ function addTemplateUI(event, template = { name: '', format: '' }) {
     // Create elements programmatically to handle values safely
     div.innerHTML = `
     <div class="template-inputs">
-      <input type="text" class="name-input" placeholder="Template Name">
-      <textarea class="format-input" placeholder="Format (e.g. [{{title}}]({{url}}))"></textarea>
+      <input type="text" class="name-input" placeholder="${chrome.i18n.getMessage('templateNamePlaceholder')}">
+      <textarea class="format-input" placeholder="${chrome.i18n.getMessage('formatPlaceholder')}"></textarea>
     </div>
-    <button class="delete">Delete</button>
+    <button class="delete">${chrome.i18n.getMessage('deleteBtn')}</button>
   `;
 
     // Set values
@@ -66,16 +77,16 @@ async function saveOptions() {
         // Visual feedback
         const saveBtn = document.getElementById('save-btn');
         const originalText = saveBtn.innerText;
-        saveBtn.innerText = 'Saved!';
+        saveBtn.innerText = chrome.i18n.getMessage('savedMsg');
         setTimeout(() => saveBtn.innerText = originalText, 1000);
     } catch (error) {
         console.error('Failed to save options:', error);
-        alert('Failed to save templates. You might have exceeded the storage quota (100KB).\n\nError: ' + error.message);
+        alert(chrome.i18n.getMessage('saveErrorMsg') + error.message);
     }
 }
 
 async function resetOptions() {
-    if (confirm('Are you sure you want to reset all templates to default?')) {
+    if (confirm(chrome.i18n.getMessage('resetConfirmMsg'))) {
         await chrome.storage.sync.set({ templates: DEFAULT_TEMPLATES });
         restoreOptions();
     }
