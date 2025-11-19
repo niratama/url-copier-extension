@@ -1,25 +1,13 @@
-const DEFAULT_TEMPLATES = [
-    { id: 'markdown', name: 'Markdown', format: '[{{title}}]({{url}})' },
-    { id: 'markdown2', name: 'Markdown 2', format: '{{title}} <{{url}}>' },
-    { id: 'html', name: 'HTML', format: '<a href="{{url}}">{{title}}</a>' },
-    { id: 'text', name: 'Text', format: '{{title}}\n{{url}}' }
-];
-
-// Initialize extension
-chrome.runtime.onInstalled.addListener(async () => {
-    // Initialize storage with defaults if empty
-    const { templates } = await chrome.storage.sync.get('templates');
-    if (!templates) {
-        await chrome.storage.sync.set({ templates: DEFAULT_TEMPLATES });
+await chrome.storage.sync.set({ templates: DEFAULT_TEMPLATES });
     }
 
-    // Initialize last used template
-    const { lastUsedTemplateId } = await chrome.storage.sync.get('lastUsedTemplateId');
-    if (!lastUsedTemplateId) {
-        await chrome.storage.sync.set({ lastUsedTemplateId: 'markdown' });
-    }
+// Initialize last used template
+const { lastUsedTemplateId } = await chrome.storage.sync.get('lastUsedTemplateId');
+if (!lastUsedTemplateId) {
+    await chrome.storage.sync.set({ lastUsedTemplateId: 'markdown' });
+}
 
-    createContextMenus();
+createContextMenus();
 });
 
 // Re-create context menus when storage changes
