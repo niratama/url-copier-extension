@@ -62,5 +62,9 @@
     "resetConfirmMsg": {
         "message": "Are you sure you want to reset all templates to default?",
         "description": "Confirmation message for reset"
+    },
+    "copyErrorMsg": {
+        "message": "Failed to copy to clipboard.",
+        "description": "Error message when clipboard copy fails"
     }
 }

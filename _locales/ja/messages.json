@@ -62,5 +62,9 @@
     "resetConfirmMsg": {
         "message": "本当にすべてのテンプレートを初期設定に戻しますか？",
         "description": "Confirmation message for reset"
+    },
+    "copyErrorMsg": {
+        "message": "クリップボードへのコピーに失敗しました。",
+        "description": "Error message when clipboard copy fails"
     }
 }

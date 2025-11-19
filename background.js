@@ -132,7 +132,7 @@ async function addToClipboard(text) {
             type: 'basic',
             iconUrl: 'icon.png',
             title: chrome.i18n.getMessage('extName'),
-            message: 'Failed to copy to clipboard.'
+            message: chrome.i18n.getMessage('copyErrorMsg')
         });
     }
 }
