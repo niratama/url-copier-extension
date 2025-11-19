@@ -114,7 +114,11 @@ async function copyAllTabs() {
 }
 
 function formatString(format, title, url) {
-    return format.replace(/{{title}}/g, title).replace(/{{url}}/g, url);
+    const replacements = {
+        '{{title}}': title,
+        '{{url}}': url
+    };
+    return format.replace(/{{title}}|{{url}}/g, match => replacements[match]);
 }
 
 // Clipboard Helper using Offscreen Document
