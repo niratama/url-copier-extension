@@ -2,7 +2,8 @@ const DEFAULT_TEMPLATES = [
     { id: 'markdown', name: 'Markdown', format: '[{{title}}]({{url}})' },
     { id: 'markdown2', name: 'Markdown 2', format: '{{title}} <{{url}}>' },
     { id: 'html', name: 'HTML', format: '<a href="{{url}}">{{title}}</a>' },
-    { id: 'text', name: 'Text', format: '{{title}}\n{{url}}' }
+    { id: 'text', name: 'Text', format: '{{title}} {{url}}' },
+    { id: 'text2', name: 'Two line text', format: '{{title}}\n{{url}}' }
 ];
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
@@ -59,13 +60,18 @@ async function saveOptions() {
         }
     });
 
-    await chrome.storage.sync.set({ templates });
+    try {
+        await chrome.storage.sync.set({ templates });
 
-    // Visual feedback
-    const saveBtn = document.getElementById('save-btn');
-    const originalText = saveBtn.innerText;
-    saveBtn.innerText = 'Saved!';
-    setTimeout(() => saveBtn.innerText = originalText, 1000);
+        // Visual feedback
+        const saveBtn = document.getElementById('save-btn');
+        const originalText = saveBtn.innerText;
+        saveBtn.innerText = 'Saved!';
+        setTimeout(() => saveBtn.innerText = originalText, 1000);
+    } catch (error) {
+        console.error('Failed to save options:', error);
+        alert('Failed to save templates. You might have exceeded the storage quota (100KB).\n\nError: ' + error.message);
+    }
 }
 
 async function resetOptions() {
