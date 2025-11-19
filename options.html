@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>URL Copier Options</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .template-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background: #e0e0e0;
+        }
+
+        button.delete {
+            color: red;
+            border-color: #ffcccb;
+            background: #fff0f0;
+        }
+
+        button.delete:hover {
+            background: #ffe0e0;
+        }
+
+        #add-btn {
+            background: #e0f7fa;
+            border-color: #b2ebf2;
+            color: #006064;
+            margin-top: 10px;
+        }
+
+        #save-btn {
+            background: #e8f5e9;
+            border-color: #c8e6c9;
+            color: #1b5e20;
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 8px 16px;
+        }
+
+        #reset-btn {
+            margin-top: 20px;
+            margin-left: 10px;
+            color: #666;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>URL Copier Templates</h1>
+    <div class="help-text">
+        Use <code>{{title}}</code> and <code>{{url}}</code> as placeholders.
+    </div>
+
+    <div id="templates-container"></div>
+
+    <button id="add-btn">+ Add Template</button>
+
+    <div>
+        <button id="save-btn">Save Changes</button>
+        <button id="reset-btn">Reset to Defaults</button>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+
+</html>

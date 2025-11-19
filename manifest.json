@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "URL Copier",
+  "version": "1.0",
+  "description": "Copy URL and Title in various formats.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "tabs",
+    "offscreen",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Copy with last used template"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
