@@ -76,9 +76,16 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 // Handle Icon Click (Action)
 chrome.action.onClicked.addListener(async (tab) => {
-    const { lastUsedTemplateId } = await chrome.storage.sync.get('lastUsedTemplateId');
-    const templateId = lastUsedTemplateId || 'markdown';
-    await copyTab(tab, templateId);
+    if (tab) {
+        try {
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ['content-palette.js']
+            });
+        } catch (err) {
+            console.error('Failed to inject palette:', err);
+        }
+    }
 });
 
 async function copyTab(tab, templateId) {
