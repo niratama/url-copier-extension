@@ -170,16 +170,12 @@ async function addToClipboard(text) {
 chrome.commands.onCommand.addListener(async (command) => {
     if (command === 'copy-last-used') {
         // Same logic as action click
-        const result = await chrome.storage.sync.get(['lastUsedTemplateId', 'templates']);
-        const templates = result.templates || DEFAULT_TEMPLATES;
+        const result = await chrome.storage.sync.get(['lastUsedTemplateId']);
         const lastUsedId = result.lastUsedTemplateId;
-        const template = templates.find(t => t.id === lastUsedId) || templates[0];
 
-        if (template) {
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-            if (tab) {
-                await copyTab(tab, template.id);
-            }
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (tab) {
+            await copyTab(tab, lastUsedId);
         }
     } else if (command === 'show-palette') {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
