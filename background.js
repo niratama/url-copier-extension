@@ -89,6 +89,18 @@ async function copyTab(tab, templateId) {
     if (template) {
         const text = formatString(template.format, tab.title, tab.url);
         await addToClipboard(text);
+    } else {
+        chrome.notifications.create({
+            type: 'basic',
+            iconUrl: 'icon.png',
+            title: chrome.i18n.getMessage('extName'),
+            message: chrome.i18n.getMessage('paletteNoTemplates') // Reusing "No templates found" or similar, or just generic error.
+            // Actually, let's use a more specific message if possible, or fallback to a generic one.
+            // Since we don't have a specific "Template not found" message key yet, let's use a generic one or add one.
+            // For now, I'll use a hardcoded fallback or reuse 'copyErrorMsg' with context?
+            // Let's stick to existing keys to avoid breaking i18n if I don't want to edit json files again.
+            // 'paletteNoTemplates' is "No templates found.", which is close enough.
+        });
     }
 }
 
@@ -137,6 +149,48 @@ async function addToClipboard(text) {
     }
 }
 
+// Handle keyboard shortcuts
+chrome.commands.onCommand.addListener(async (command) => {
+    if (command === 'copy-last-used') {
+        // Same logic as action click
+        const result = await chrome.storage.sync.get(['lastUsedTemplateId', 'templates']);
+        const templates = result.templates || DEFAULT_TEMPLATES;
+        const lastUsedId = result.lastUsedTemplateId;
+        const template = templates.find(t => t.id === lastUsedId) || templates[0];
+
+        if (template) {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (tab) {
+                await copyTab(tab, template.id);
+            }
+        }
+    } else if (command === 'show-palette') {
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (tab) {
+            try {
+                await chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    files: ['content-palette.js']
+                });
+            } catch (err) {
+                console.error('Failed to inject palette:', err);
+            }
+        }
+    } else if (command === 'copy-slot-1' || command === 'copy-slot-2') {
+        const slotKey = command === 'copy-slot-1' ? 'slot1TemplateId' : 'slot2TemplateId';
+        const result = await chrome.storage.sync.get([slotKey, 'templates']);
+        const templates = result.templates || DEFAULT_TEMPLATES;
+        const templateId = result[slotKey];
+
+        if (templateId) {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (tab) {
+                await copyTab(tab, templateId);
+            }
+        }
+    }
+});
+
 let creating; // A global promise to avoid concurrency issues
 async function setupOffscreenDocument(path) {
     // Check if offscreen document exists
@@ -162,3 +216,19 @@ async function setupOffscreenDocument(path) {
         creating = null;
     }
 }
+
+// Handle messages from content script (Palette)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'get-templates') {
+        chrome.storage.sync.get('templates').then(({ templates }) => {
+            sendResponse({ templates: templates || DEFAULT_TEMPLATES });
+        });
+        return true; // Keep channel open for async response
+    } else if (message.type === 'copy-template') {
+        // We need the tab from the sender
+        const tab = sender.tab;
+        if (tab) {
+            copyTab(tab, message.templateId);
+        }
+    }
+});

@@ -66,5 +66,45 @@
     "copyErrorMsg": {
         "message": "Failed to copy to clipboard.",
         "description": "Error message when clipboard copy fails"
+    },
+    "cmdCopyLastUsed": {
+        "message": "Copy with last used template",
+        "description": "Command description for copy last used"
+    },
+    "cmdShowPalette": {
+        "message": "Show Command Palette",
+        "description": "Command description for showing palette"
+    },
+    "cmdCopySlot1": {
+        "message": "Copy with Slot 1 template",
+        "description": "Command description for slot 1"
+    },
+    "cmdCopySlot2": {
+        "message": "Copy with Slot 2 template",
+        "description": "Command description for slot 2"
+    },
+    "slotSettingsTitle": {
+        "message": "Shortcut Slots",
+        "description": "Title for slot settings section"
+    },
+    "slot1Label": {
+        "message": "Slot 1 (Alt+1)",
+        "description": "Label for slot 1 dropdown"
+    },
+    "slot2Label": {
+        "message": "Slot 2 (Alt+2)",
+        "description": "Label for slot 2 dropdown"
+    },
+    "configureShortcutsLink": {
+        "message": "Configure Keyboard Shortcuts",
+        "description": "Link to chrome://extensions/shortcuts"
+    },
+    "paletteNoTemplates": {
+        "message": "No templates found.",
+        "description": "Error message in palette when no templates exist"
+    },
+    "paletteInstruction": {
+        "message": "Select a template to copy (Press 1-9 or Enter)",
+        "description": "Instruction text in palette header"
     }
 }

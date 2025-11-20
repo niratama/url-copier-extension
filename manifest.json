@@ -10,7 +10,9 @@
     "tabs",
     "offscreen",
     "clipboardWrite",
-    "notifications"
+    "notifications",
+    "scripting",
+    "activeTab"
   ],
   "background": {
     "service_worker": "background.js"
@@ -23,5 +25,35 @@
     "16": "icon.png",
     "48": "icon.png",
     "128": "icon.png"
+  },
+  "commands": {
+    "copy-last-used": {
+      "suggested_key": {
+        "default": "Alt+C",
+        "mac": "Alt+C"
+      },
+      "description": "__MSG_cmdCopyLastUsed__"
+    },
+    "show-palette": {
+      "suggested_key": {
+        "default": "Alt+P",
+        "mac": "Alt+P"
+      },
+      "description": "__MSG_cmdShowPalette__"
+    },
+    "copy-slot-1": {
+      "suggested_key": {
+        "default": "Alt+1",
+        "mac": "Alt+1"
+      },
+      "description": "__MSG_cmdCopySlot1__"
+    },
+    "copy-slot-2": {
+      "suggested_key": {
+        "default": "Alt+2",
+        "mac": "Alt+2"
+      },
+      "description": "__MSG_cmdCopySlot2__"
+    }
   }
 }

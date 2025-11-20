@@ -66,5 +66,45 @@
     "copyErrorMsg": {
         "message": "クリップボードへのコピーに失敗しました。",
         "description": "Error message when clipboard copy fails"
+    },
+    "cmdCopyLastUsed": {
+        "message": "最後に使用したテンプレートでコピー",
+        "description": "Command description for copy last used"
+    },
+    "cmdShowPalette": {
+        "message": "コマンドパレットを表示",
+        "description": "Command description for showing palette"
+    },
+    "cmdCopySlot1": {
+        "message": "スロット1のテンプレートでコピー",
+        "description": "Command description for slot 1"
+    },
+    "cmdCopySlot2": {
+        "message": "スロット2のテンプレートでコピー",
+        "description": "Command description for slot 2"
+    },
+    "slotSettingsTitle": {
+        "message": "ショートカットスロット設定",
+        "description": "Title for slot settings section"
+    },
+    "slot1Label": {
+        "message": "スロット 1 (Alt+1)",
+        "description": "Label for slot 1 dropdown"
+    },
+    "slot2Label": {
+        "message": "スロット 2 (Alt+2)",
+        "description": "Label for slot 2 dropdown"
+    },
+    "configureShortcutsLink": {
+        "message": "キーボードショートカットの設定を変更",
+        "description": "Link to chrome://extensions/shortcuts"
+    },
+    "paletteNoTemplates": {
+        "message": "テンプレートが見つかりません。",
+        "description": "Error message in palette when no templates exist"
+    },
+    "paletteInstruction": {
+        "message": "コピーするテンプレートを選択してください (1-9 または Enter)",
+        "description": "Instruction text in palette header"
     }
 }
