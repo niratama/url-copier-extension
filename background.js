@@ -54,19 +54,30 @@ async function createContextMenus() {
         contexts: ['all']
     });
 
-    // Copy All Tabs
+    // Copy All Tabs (Parent)
     chrome.contextMenus.create({
-        id: 'copy_all',
+        id: 'copy_all_parent',
         parentId: 'parent',
         title: chrome.i18n.getMessage('copyAllTabs'),
         contexts: ['all']
+    });
+
+    // Copy All Tabs Sub-items
+    currentTemplates.forEach(template => {
+        chrome.contextMenus.create({
+            id: `copy_all_${template.id}`,
+            parentId: 'copy_all_parent',
+            title: template.name,
+            contexts: ['all']
+        });
     });
 }
 
 // Handle Context Menu Clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-    if (info.menuItemId === 'copy_all') {
-        await copyAllTabs();
+    if (info.menuItemId.startsWith('copy_all_')) {
+        const templateId = info.menuItemId.replace('copy_all_', '');
+        await copyAllTabs(templateId);
     } else if (info.menuItemId.startsWith('template_')) {
         const templateId = info.menuItemId.replace('template_', '');
         await copyTab(tab, templateId);
@@ -111,14 +122,13 @@ async function copyTab(tab, templateId) {
     }
 }
 
-async function copyAllTabs() {
-    const { lastUsedTemplateId } = await chrome.storage.sync.get('lastUsedTemplateId');
+async function copyAllTabs(templateId) {
     const { templates } = await chrome.storage.sync.get('templates');
     const currentTemplates = templates || DEFAULT_TEMPLATES;
 
-    // Use last used template for "Copy All", or default to first one
-    const templateId = lastUsedTemplateId || (currentTemplates[0] ? currentTemplates[0].id : 'markdown');
-    const template = currentTemplates.find(t => t.id === templateId);
+    // If no templateId passed (shouldn't happen with new menu), fallback to first
+    const targetId = templateId || (currentTemplates[0] ? currentTemplates[0].id : 'markdown');
+    const template = currentTemplates.find(t => t.id === targetId);
 
     if (!template) return;
 

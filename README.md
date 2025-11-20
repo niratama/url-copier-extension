@@ -41,7 +41,7 @@ A Chrome extension that allows you to copy the URL and Title of the current tab 
 
 1.  **Right-click** on any page to see the "URL Copier" menu.
 2.  Select a template to copy the current page's info.
-3.  Select **Copy All Tabs** to copy info for all tabs in the window.
+3.  Select **Copy All Tabs** and choose a template to copy info for all tabs in the window.
 4.  **Left-click** the extension icon in the toolbar to open the Command Palette.
 5.  Go to the **Options** page (Right-click icon -> Options) to add, edit, or delete templates.
 6.  **Keyboard Shortcuts**: Use `Alt+P` to open the Command Palette for quick access to all templates. You can also configure `Alt+1` and `Alt+2` in the Options page for your favorite templates.
