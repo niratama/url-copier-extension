@@ -106,5 +106,9 @@
     "paletteInstruction": {
         "message": "Select a template to copy (Press 1-9 or Enter)",
         "description": "Instruction text in palette header"
+    },
+    "actionTitle": {
+        "message": "URL Copier: Show Command Palette",
+        "description": "Tooltip title for the extension action"
     }
 }

@@ -106,5 +106,9 @@
     "paletteInstruction": {
         "message": "コピーするテンプレートを選択してください (1-9 または Enter)",
         "description": "Instruction text in palette header"
+    },
+    "actionTitle": {
+        "message": "URL Copier: コマンドパレットを表示",
+        "description": "Tooltip title for the extension action"
     }
 }

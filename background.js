@@ -88,13 +88,22 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 // Handle Icon Click (Action)
 chrome.action.onClicked.addListener(async (tab) => {
     if (tab) {
+        // Skip restricted URLs (chrome://, edge://, etc.)
+        if (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
+            return;
+        }
+
         try {
             await chrome.scripting.executeScript({
                 target: { tabId: tab.id },
                 files: ['content-palette.js']
             });
         } catch (err) {
-            console.error('Failed to inject palette:', err);
+            // Ignore expected errors on restricted pages
+            if (!err.message.includes('Cannot access a chrome:// URL') &&
+                !err.message.includes('The extensions gallery cannot be scripted')) {
+                console.error('Failed to inject palette:', err);
+            }
         }
     }
 });
@@ -180,13 +189,22 @@ chrome.commands.onCommand.addListener(async (command) => {
     } else if (command === 'show-palette') {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (tab) {
+            // Skip restricted URLs
+            if (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
+                return;
+            }
+
             try {
                 await chrome.scripting.executeScript({
                     target: { tabId: tab.id },
                     files: ['content-palette.js']
                 });
             } catch (err) {
-                console.error('Failed to inject palette:', err);
+                // Ignore expected errors on restricted pages
+                if (!err.message.includes('Cannot access a chrome:// URL') &&
+                    !err.message.includes('The extensions gallery cannot be scripted')) {
+                    console.error('Failed to inject palette:', err);
+                }
             }
         }
     } else if (command === 'copy-slot-1' || command === 'copy-slot-2') {
