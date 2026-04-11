@@ -25,24 +25,33 @@
     // Create Host
     const host = document.createElement('div');
     host.id = 'url-copier-palette-host';
-    host.style.position = 'fixed';
-    host.style.top = '0';
-    host.style.left = '0';
-    host.style.width = '100%';
-    host.style.height = '100%';
-    host.style.zIndex = '2147483647'; // Max z-index
-    host.style.display = 'flex';
-    host.style.justifyContent = 'center';
-    host.style.alignItems = 'flex-start';
-    host.style.paddingTop = '100px';
-    host.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-    host.style.fontFamily = 'sans-serif';
+    // setAttribute + !important でページの CSS（!important 含む）による上書きを防ぐ
+    host.setAttribute('style', [
+        'all: initial',
+        'position: fixed',
+        'top: 0',
+        'left: 0',
+        'width: 100%',
+        'height: 100%',
+        'z-index: 2147483647',
+        'display: flex',
+        'justify-content: center',
+        'align-items: flex-start',
+        'padding-top: 100px',
+        'background-color: rgba(0, 0, 0, 0.2)',
+        'box-sizing: border-box',
+        'pointer-events: auto',
+    ].map(p => p + ' !important').join('; '));
 
     const shadow = host.attachShadow({ mode: 'open' });
 
     // Styles
     const style = document.createElement('style');
     style.textContent = `
+        /* Shadow DOM 内部への継承スタイル漏れを防ぐリセット */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
         .palette {
             background: white;
             width: 500px;
@@ -53,6 +62,17 @@
             flex-direction: column;
             overflow: hidden;
             animation: slideDown 0.1s ease-out;
+            /* ページから継承されるフォント・色を明示的にリセット */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            line-height: 1.5;
+            color: #333;
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-transform: none;
+            text-align: left;
         }
         @keyframes slideDown {
             from { transform: translateY(-10px); opacity: 0; }
