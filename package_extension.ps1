@@ -24,6 +24,8 @@ $includes = @(
     "icon16.png",
     "icon48.png",
     "icon128.png",
+    "action-16.png",
+    "action-32.png",
     "LICENSE",
     "_locales"
 )
