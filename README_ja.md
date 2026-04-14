@@ -37,6 +37,16 @@
 4.  **パッケージ化されていない拡張機能を読み込む** をクリックします。
 5.  この拡張機能が含まれるディレクトリを選択します。
 
+## アイコンアセット
+
+アイコンPNGは `generate_icons.ps1` で生成しています。Chrome Web Store 用の通常アイコンと、ツールバー用 action アイコンで別のジオメトリを使い分けており、現在は `icon16.png`、`icon32.png`、`icon48.png`、`icon128.png`、`icon.png`、`action-16.png`、`action-24.png`、`action-32.png`、`action-48.png` を出力します。
+
+再生成する場合は、次を実行します。
+
+```powershell
+./generate_icons.ps1
+```
+
 ## 使い方
 
 1.  ページ上で **右クリック** すると「URL Copier」メニューが表示されます。

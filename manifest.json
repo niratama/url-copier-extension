@@ -20,13 +20,16 @@
   "action": {
     "default_icon": {
       "16": "action-16.png",
-      "32": "action-32.png"
+      "24": "action-24.png",
+      "32": "action-32.png",
+      "48": "action-48.png"
     },
     "default_title": "__MSG_actionTitle__"
   },
   "options_page": "options.html",
   "icons": {
     "16": "icon16.png",
+    "32": "icon32.png",
     "48": "icon48.png",
     "128": "icon128.png"
   },

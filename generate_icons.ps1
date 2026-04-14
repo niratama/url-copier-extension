@@ -48,20 +48,21 @@ function Add-PathFigure {
 
 function New-ClipboardPath {
     param(
-        [double]$Size
+        [double]$Size,
+        [hashtable]$Profile
     )
 
-    $bodyX = $Size * 0.12
-    $bodyY = $Size * 0.23
-    $bodyWidth = $Size * 0.76
-    $bodyHeight = $Size * 0.64
-    $bodyRadius = $Size * 0.16
+    $bodyX = $Size * $Profile.BodyX
+    $bodyY = $Size * $Profile.BodyY
+    $bodyWidth = $Size * $Profile.BodyWidth
+    $bodyHeight = $Size * $Profile.BodyHeight
+    $bodyRadius = $Size * $Profile.BodyRadius
 
-    $tabWidth = $Size * 0.32
-    $tabHeight = $Size * 0.12
+    $tabWidth = $Size * $Profile.TabWidth
+    $tabHeight = $Size * $Profile.TabHeight
     $tabX = ($Size - $tabWidth) / 2
-    $tabY = $Size * 0.11
-    $tabRadius = $Size * 0.08
+    $tabY = $Size * $Profile.TabY
+    $tabRadius = $Size * $Profile.TabRadius
 
     $path = New-Object System.Drawing.Drawing2D.GraphicsPath
     Add-PathFigure -Target $path -Source (New-RoundedRectPath -X $bodyX -Y $bodyY -Width $bodyWidth -Height $bodyHeight -Radius $bodyRadius)
@@ -123,8 +124,54 @@ function Draw-OutlinedPath {
 function Draw-Icon {
     param(
         [int]$Size,
-        [string]$FileName
+        [string]$FileName,
+        [string]$Kind
     )
+
+    $profile = if ($Kind -eq 'action') {
+        @{
+            BodyX = 0.14
+            BodyY = 0.24
+            BodyWidth = 0.72
+            BodyHeight = 0.60
+            BodyRadius = 0.15
+            TabWidth = 0.28
+            TabHeight = 0.10
+            TabY = 0.12
+            TabRadius = 0.07
+            BodyOuterStroke = 0.17
+            BodyInnerStroke = 0.09
+            LinkOuterStroke = 0.20
+            LinkInnerStroke = 0.11
+            LinkWidth = 0.30
+            LinkHeight = 0.18
+            LinkRadius = 0.085
+            LinkOffsetX = 0.095
+            LinkOffsetY = 0.030
+        }
+    }
+    else {
+        @{
+            BodyX = 0.18
+            BodyY = 0.29
+            BodyWidth = 0.64
+            BodyHeight = 0.50
+            BodyRadius = 0.13
+            TabWidth = 0.24
+            TabHeight = 0.08
+            TabY = 0.19
+            TabRadius = 0.05
+            BodyOuterStroke = 0.135
+            BodyInnerStroke = 0.072
+            LinkOuterStroke = 0.155
+            LinkInnerStroke = 0.085
+            LinkWidth = 0.25
+            LinkHeight = 0.145
+            LinkRadius = 0.070
+            LinkOffsetX = 0.078
+            LinkOffsetY = 0.022
+        }
+    }
 
     $bitmap = New-Object System.Drawing.Bitmap($Size, $Size, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
 
@@ -136,20 +183,20 @@ function Draw-Icon {
             $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
             $graphics.Clear([System.Drawing.Color]::Transparent)
 
-            $bodyOuterStroke = [Math]::Max(2.2, $Size * 0.17)
-            $bodyInnerStroke = [Math]::Max(1.2, $Size * 0.09)
-            $linkOuterStroke = [Math]::Max(2.4, $Size * 0.20)
-            $linkInnerStroke = [Math]::Max(1.3, $Size * 0.11)
-            $linkWidth = $Size * 0.30
-            $linkHeight = $Size * 0.18
-            $linkRadius = $Size * 0.085
+            $bodyOuterStroke = [Math]::Max(1.8, $Size * $profile.BodyOuterStroke)
+            $bodyInnerStroke = [Math]::Max(1.0, $Size * $profile.BodyInnerStroke)
+            $linkOuterStroke = [Math]::Max(1.8, $Size * $profile.LinkOuterStroke)
+            $linkInnerStroke = [Math]::Max(1.0, $Size * $profile.LinkInnerStroke)
+            $linkWidth = $Size * $profile.LinkWidth
+            $linkHeight = $Size * $profile.LinkHeight
+            $linkRadius = $Size * $profile.LinkRadius
             $centerX = $Size * 0.50
             $centerY = $Size * 0.50
-            $linkOffsetX = $Size * 0.095
-            $linkOffsetY = $Size * 0.030
+            $linkOffsetX = $Size * $profile.LinkOffsetX
+            $linkOffsetY = $Size * $profile.LinkOffsetY
             $rotation = -32
 
-            $clipboardPath = New-ClipboardPath -Size $Size
+            $clipboardPath = New-ClipboardPath -Size $Size -Profile $profile
             try {
                 Draw-OutlinedPath -Graphics $graphics -Path $clipboardPath -OuterWidth $bodyOuterStroke -OuterColor ([System.Drawing.Color]::White) -InnerWidth $bodyInnerStroke -InnerColor ([System.Drawing.Color]::FromArgb(255, 12, 12, 12))
             }
@@ -187,14 +234,17 @@ if (-not (Test-Path $OutputDir)) {
 }
 
 $targets = @(
-    @{ Size = 16; FileName = "icon16.png" },
-    @{ Size = 48; FileName = "icon48.png" },
-    @{ Size = 128; FileName = "icon128.png" },
-    @{ Size = 1024; FileName = "icon.png" },
-    @{ Size = 16; FileName = "action-16.png" },
-    @{ Size = 32; FileName = "action-32.png" }
+    @{ Size = 16; FileName = "icon16.png"; Kind = "store" },
+    @{ Size = 32; FileName = "icon32.png"; Kind = "store" },
+    @{ Size = 48; FileName = "icon48.png"; Kind = "store" },
+    @{ Size = 128; FileName = "icon128.png"; Kind = "store" },
+    @{ Size = 1024; FileName = "icon.png"; Kind = "store" },
+    @{ Size = 16; FileName = "action-16.png"; Kind = "action" },
+    @{ Size = 24; FileName = "action-24.png"; Kind = "action" },
+    @{ Size = 32; FileName = "action-32.png"; Kind = "action" },
+    @{ Size = 48; FileName = "action-48.png"; Kind = "action" }
 )
 
 foreach ($target in $targets) {
-    Draw-Icon -Size $target.Size -FileName $target.FileName
+    Draw-Icon -Size $target.Size -FileName $target.FileName -Kind $target.Kind
 }

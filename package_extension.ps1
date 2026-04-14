@@ -21,11 +21,15 @@ $includes = @(
     "options.html",
     "options.js",
     "options.css",
+    "icon.png",
     "icon16.png",
+    "icon32.png",
     "icon48.png",
     "icon128.png",
     "action-16.png",
+    "action-24.png",
     "action-32.png",
+    "action-48.png",
     "LICENSE",
     "_locales"
 )
