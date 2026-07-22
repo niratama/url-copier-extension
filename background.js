@@ -13,100 +13,36 @@ chrome.runtime.onInstalled.addListener(async () => {
     if (!lastUsedTemplateId) {
         await chrome.storage.sync.set({ lastUsedTemplateId: 'markdown' });
     }
-
-    createContextMenus();
-});
-
-// Re-create context menus when storage changes
-chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'sync' && changes.templates) {
-        createContextMenus();
-    }
-});
-
-async function createContextMenus() {
-    chrome.contextMenus.removeAll();
-
-    const { templates } = await chrome.storage.sync.get('templates');
-    const currentTemplates = templates || DEFAULT_TEMPLATES;
-
-    // Parent menu
-    chrome.contextMenus.create({
-        id: 'parent',
-        title: chrome.i18n.getMessage('extName'),
-        contexts: ['all']
-    });
-
-    // Template items
-    currentTemplates.forEach(template => {
-        chrome.contextMenus.create({
-            id: `template_${template.id}`,
-            parentId: 'parent',
-            title: template.name,
-            contexts: ['all']
-        });
-    });
-
-    chrome.contextMenus.create({
-        id: 'separator',
-        parentId: 'parent',
-        type: 'separator',
-        contexts: ['all']
-    });
-
-    // Copy All Tabs (Parent)
-    chrome.contextMenus.create({
-        id: 'copy_all_parent',
-        parentId: 'parent',
-        title: chrome.i18n.getMessage('copyAllTabs'),
-        contexts: ['all']
-    });
-
-    // Copy All Tabs Sub-items
-    currentTemplates.forEach(template => {
-        chrome.contextMenus.create({
-            id: `copy_all_${template.id}`,
-            parentId: 'copy_all_parent',
-            title: template.name,
-            contexts: ['all']
-        });
-    });
-}
-
-// Handle Context Menu Clicks
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-    if (info.menuItemId.startsWith('copy_all_')) {
-        const templateId = info.menuItemId.replace('copy_all_', '');
-        await copyAllTabs(templateId);
-    } else if (info.menuItemId.startsWith('template_')) {
-        const templateId = info.menuItemId.replace('template_', '');
-        await copyTab(tab, templateId);
-        await chrome.storage.sync.set({ lastUsedTemplateId: templateId });
-    }
 });
 
 // Handle Icon Click (Action)
 chrome.action.onClicked.addListener(async (tab) => {
-    if (tab) {
-        // Skip restricted URLs (chrome://, edge://, etc.)
-        if (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
-            return;
-        }
-
-        try {
-            await chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                files: ['content-palette.js']
-            });
-        } catch (err) {
-            // Ignore expected errors on restricted pages
-            if (!err.message.includes('Cannot access a chrome:// URL') &&
-                !err.message.includes('The extensions gallery cannot be scripted')) {
-                console.error('Failed to inject palette:', err);
-            }
-        }
+    if (tab && !isRestrictedUrl(tab.url)) {
+        await openPalette({ sourceTabId: tab.id, windowId: tab.windowId });
     }
 });
+
+function isRestrictedUrl(url = '') {
+    return url.startsWith('chrome://') || url.startsWith('edge://') || url.startsWith('about:');
+}
+
+async function openPalette({ sourceTabId, windowId }) {
+    const paletteUrl = chrome.runtime.getURL(`palette.html?sourceTabId=${encodeURIComponent(sourceTabId)}&sourceWindowId=${encodeURIComponent(windowId)}`);
+    const popupWidth = 360;
+    const popupHeight = 280;
+    const activeWindow = await chrome.windows.get(windowId);
+    const left = Math.round((activeWindow.left || 0) + Math.max(0, ((activeWindow.width || popupWidth) - popupWidth) / 2));
+    const top = Math.round((activeWindow.top || 0) + Math.max(0, ((activeWindow.height || popupHeight) - popupHeight) / 2));
+    await chrome.windows.create({
+        url: paletteUrl,
+        type: 'popup',
+        width: popupWidth,
+        height: popupHeight,
+        left,
+        top,
+        focused: true
+    });
+}
 
 async function copyTab(tab, templateId) {
     const { templates } = await chrome.storage.sync.get('templates');
@@ -131,17 +67,16 @@ async function copyTab(tab, templateId) {
     }
 }
 
-async function copyAllTabs(templateId) {
+async function copyAllTabsInWindow(windowId, templateId) {
     const { templates } = await chrome.storage.sync.get('templates');
     const currentTemplates = templates || DEFAULT_TEMPLATES;
 
-    // If no templateId passed (shouldn't happen with new menu), fallback to first
     const targetId = templateId || (currentTemplates[0] ? currentTemplates[0].id : 'markdown');
     const template = currentTemplates.find(t => t.id === targetId);
 
     if (!template) return;
 
-    const tabs = await chrome.tabs.query({ currentWindow: true });
+    const tabs = await chrome.tabs.query({ windowId });
     const text = tabs.map(tab => formatString(template.format, tab.title, tab.url)).join('\n');
     await addToClipboard(text);
 }
@@ -188,24 +123,8 @@ chrome.commands.onCommand.addListener(async (command) => {
         }
     } else if (command === 'show-palette') {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-        if (tab) {
-            // Skip restricted URLs
-            if (tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
-                return;
-            }
-
-            try {
-                await chrome.scripting.executeScript({
-                    target: { tabId: tab.id },
-                    files: ['content-palette.js']
-                });
-            } catch (err) {
-                // Ignore expected errors on restricted pages
-                if (!err.message.includes('Cannot access a chrome:// URL') &&
-                    !err.message.includes('The extensions gallery cannot be scripted')) {
-                    console.error('Failed to inject palette:', err);
-                }
-            }
+        if (tab && !isRestrictedUrl(tab.url)) {
+            await openPalette({ sourceTabId: tab.id, windowId: tab.windowId });
         }
     } else if (command === 'copy-slot-1' || command === 'copy-slot-2') {
         const slotKey = command === 'copy-slot-1' ? 'slot1TemplateId' : 'slot2TemplateId';
@@ -256,10 +175,34 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
         return true; // Keep channel open for async response
     } else if (message.type === 'copy-template') {
-        // We need the tab from the sender
-        const tab = sender.tab;
-        if (tab) {
-            copyTab(tab, message.templateId);
+        const tabPromise = message.sourceTabId
+            ? chrome.tabs.get(message.sourceTabId).catch(() => null)
+            : Promise.resolve(sender.tab || null);
+
+        tabPromise.then(async (tab) => {
+            if (!tab) {
+                sendResponse({ success: false });
+                return;
+            }
+
+            await copyTab(tab, message.templateId);
+            await chrome.storage.sync.set({ lastUsedTemplateId: message.templateId });
+            sendResponse({ success: true });
+        });
+        return true;
+    } else if (message.type === 'copy-all-tabs') {
+        const windowId = message.sourceWindowId;
+        if (typeof windowId !== 'number') {
+            sendResponse({ success: false });
+            return true;
         }
+
+        copyAllTabsInWindow(windowId, message.templateId).then(async () => {
+            await chrome.storage.sync.set({ lastUsedTemplateId: message.templateId });
+            sendResponse({ success: true });
+        }).catch(() => {
+            sendResponse({ success: false });
+        });
+        return true;
     }
 });

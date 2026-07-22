@@ -7,13 +7,13 @@ A Chrome extension that allows you to copy the URL and Title of the current tab 
 ## Features
 
 - **Customizable Templates**: Define your own formats using `{{title}}` and `{{url}}` placeholders.
-- **Context Menu Integration**: Right-click on any page to select a specific format.
-- **Command Palette Access**: Click the extension icon to open the Command Palette.
-- **Copy All Tabs**: Option to copy the URL and Title of all open tabs in the current window.
+- **Popup Menu Access**: Click the extension icon to open a popup menu for template selection.
+- **Copy Target Tabs**: Switch between **Copy Current Tab** and **Copy All Tabs** from tabs in the popup.
+- **Options Shortcut**: Open the Options page directly from the popup's **Options** button.
 - **Internationalization**: Supports English and Japanese.
 - **Keyboard Shortcuts**:
   - `Alt+C`: Copy using the last used template.
-  - `Alt+P`: Open the Command Palette to select a template.
+  - `Alt+P`: Open the popup menu to select a template.
   - `Alt+1`: Copy using the template assigned to Slot 1.
   - `Alt+2`: Copy using the template assigned to Slot 2.
 
@@ -49,12 +49,11 @@ To regenerate them, run:
 
 ## Usage
 
-1.  **Right-click** on any page to see the "URL Copier" menu.
-2.  Select a template to copy the current page's info.
-3.  Select **Copy All Tabs** and choose a template to copy info for all tabs in the window.
-4.  **Left-click** the extension icon in the toolbar to open the Command Palette.
-5.  Go to the **Options** page (Right-click icon -> Options) to add, edit, or delete templates.
-6.  **Keyboard Shortcuts**: Use `Alt+P` to open the Command Palette for quick access to all templates. You can also configure `Alt+1` and `Alt+2` in the Options page for your favorite templates.
+1.  **Left-click** the extension icon in the toolbar to open the template popup.
+2.  In the top tabs, choose **Copy Current Tab** or **Copy All Tabs**.
+3.  Select a template to run copy for the currently selected target.
+4.  Use the popup **Options** button (or the extension options screen) to add, edit, or delete templates.
+5.  **Keyboard Shortcuts**: Use `Alt+P` to open the popup. Inside the popup, use `Left`/`Right` to switch target tabs, `Up`/`Down` to move through templates, `Enter` to copy, and `Esc` to close. You can also configure `Alt+1` and `Alt+2` in the Options page for your favorite templates.
 
 ## License
 

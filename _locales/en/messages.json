@@ -104,8 +104,28 @@
         "description": "Error message in palette when no templates exist"
     },
     "paletteInstruction": {
-        "message": "Select a template to copy (Press 1-9 or Enter)",
+        "message": "1-9 / Enter / Esc",
         "description": "Instruction text in palette header"
+    },
+    "paletteSourceTabError": {
+        "message": "Could not determine the source tab.",
+        "description": "Error message shown when the palette is opened without a source tab"
+    },
+    "paletteSourceTabHint": {
+        "message": "This window was opened without tab context.",
+        "description": "Subtitle shown when the palette is opened without a source tab"
+    },
+    "paletteLoading": {
+        "message": "Loading...",
+        "description": "Loading text shown while the palette initializes"
+    },
+    "openOptionsBtn": {
+        "message": "Options",
+        "description": "Button label for opening options"
+    },
+    "currentTabBtn": {
+        "message": "Copy Current Tab",
+        "description": "Button label for selecting the current tab mode"
     },
     "actionTitle": {
         "message": "URL Copier: Show Command Palette",

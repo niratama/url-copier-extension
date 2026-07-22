@@ -5,9 +5,9 @@
   "description": "__MSG_extDesc__",
   "default_locale": "ja",
   "permissions": [
-    "contextMenus",
     "storage",
     "tabs",
+    "windows",
     "offscreen",
     "clipboardWrite",
     "notifications",

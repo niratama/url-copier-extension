@@ -104,8 +104,28 @@
         "description": "Error message in palette when no templates exist"
     },
     "paletteInstruction": {
-        "message": "コピーするテンプレートを選択してください (1-9 または Enter)",
+        "message": "1-9 / Enter / Esc",
         "description": "Instruction text in palette header"
+    },
+    "paletteSourceTabError": {
+        "message": "コピー元タブを取得できませんでした。",
+        "description": "Error message shown when the palette is opened without a source tab"
+    },
+    "paletteSourceTabHint": {
+        "message": "このウィンドウはタブ情報なしで開かれました",
+        "description": "Subtitle shown when the palette is opened without a source tab"
+    },
+    "paletteLoading": {
+        "message": "読み込み中…",
+        "description": "Loading text shown while the palette initializes"
+    },
+    "openOptionsBtn": {
+        "message": "オプション",
+        "description": "Button label for opening options"
+    },
+    "currentTabBtn": {
+        "message": "現在のタブをコピー",
+        "description": "Button label for selecting the current tab mode"
     },
     "actionTitle": {
         "message": "URL Copier: コマンドパレットを表示",
