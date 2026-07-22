@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -189,13 +189,13 @@
 <body>
     <main class="panel" aria-label="URL Copier palette">
         <div class="actions">
-            <div class="tabs" role="tablist" aria-label="コピー対象の選択">
+            <div id="copy-target-tabs" class="tabs" role="tablist" aria-label="Select copy target">
                 <button id="current-tab-btn" class="tab" type="button" role="tab" aria-selected="true">現在のタブをコピー</button>
                 <button id="all-tabs-btn" class="tab" type="button" role="tab" aria-selected="false">すべてのタブ</button>
             </div>
             <button id="options-btn" class="action" type="button">オプション</button>
         </div>
-        <div id="palette-list" class="list" role="listbox" aria-label="テンプレート一覧"></div>
+        <div id="palette-list" class="list" role="listbox" aria-label="Template list"></div>
         <div id="palette-message" class="empty" hidden></div>
     </main>
     <script src="constants.js"></script>

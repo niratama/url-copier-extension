@@ -118,7 +118,7 @@ chrome.commands.onCommand.addListener(async (command) => {
         const lastUsedId = result.lastUsedTemplateId;
 
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-        if (tab) {
+        if (tab && !isRestrictedUrl(tab.url)) {
             await copyTab(tab, lastUsedId);
         }
     } else if (command === 'show-palette') {
@@ -175,20 +175,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
         return true; // Keep channel open for async response
     } else if (message.type === 'copy-template') {
-        const tabPromise = message.sourceTabId
-            ? chrome.tabs.get(message.sourceTabId).catch(() => null)
-            : Promise.resolve(sender.tab || null);
+        (async () => {
+            try {
+                const tab = message.sourceTabId
+                    ? await chrome.tabs.get(message.sourceTabId).catch(() => null)
+                    : (sender.tab || null);
 
-        tabPromise.then(async (tab) => {
-            if (!tab) {
+                if (!tab || isRestrictedUrl(tab.url)) {
+                    sendResponse({ success: false });
+                    return;
+                }
+
+                await copyTab(tab, message.templateId);
+                await chrome.storage.sync.set({ lastUsedTemplateId: message.templateId });
+                sendResponse({ success: true });
+            } catch {
                 sendResponse({ success: false });
-                return;
             }
-
-            await copyTab(tab, message.templateId);
-            await chrome.storage.sync.set({ lastUsedTemplateId: message.templateId });
-            sendResponse({ success: true });
-        });
+        })();
         return true;
     } else if (message.type === 'copy-all-tabs') {
         const windowId = message.sourceWindowId;

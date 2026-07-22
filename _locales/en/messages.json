@@ -95,6 +95,10 @@
         "message": "Slot 2 (Alt+2)",
         "description": "Label for slot 2 dropdown"
     },
+    "slotNoneOption": {
+        "message": "(None)",
+        "description": "Option label for unassigned slot"
+    },
     "configureShortcutsLink": {
         "message": "Configure Keyboard Shortcuts",
         "description": "Link to chrome://extensions/shortcuts"
@@ -126,6 +130,14 @@
     "currentTabBtn": {
         "message": "Copy Current Tab",
         "description": "Button label for selecting the current tab mode"
+    },
+    "copyTargetTablistLabel": {
+        "message": "Select copy target",
+        "description": "ARIA label for the copy target tab list"
+    },
+    "templateListLabel": {
+        "message": "Template list",
+        "description": "ARIA label for the template listbox"
     },
     "actionTitle": {
         "message": "URL Copier: Show Command Palette",

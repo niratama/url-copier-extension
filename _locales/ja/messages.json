@@ -95,6 +95,10 @@
         "message": "スロット 2 (Alt+2)",
         "description": "Label for slot 2 dropdown"
     },
+    "slotNoneOption": {
+        "message": "(未設定)",
+        "description": "Option label for unassigned slot"
+    },
     "configureShortcutsLink": {
         "message": "キーボードショートカットの設定を変更",
         "description": "Link to chrome://extensions/shortcuts"
@@ -126,6 +130,14 @@
     "currentTabBtn": {
         "message": "現在のタブをコピー",
         "description": "Button label for selecting the current tab mode"
+    },
+    "copyTargetTablistLabel": {
+        "message": "コピー対象の選択",
+        "description": "ARIA label for the copy target tab list"
+    },
+    "templateListLabel": {
+        "message": "テンプレート一覧",
+        "description": "ARIA label for the template listbox"
     },
     "actionTitle": {
         "message": "URL Copier: コマンドパレットを表示",

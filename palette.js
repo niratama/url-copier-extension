@@ -3,6 +3,7 @@ const sourceWindowId = Number(new URLSearchParams(location.search).get('sourceWi
 const currentTabBtn = document.getElementById('current-tab-btn');
 const allTabsBtn = document.getElementById('all-tabs-btn');
 const optionsBtn = document.getElementById('options-btn');
+const copyTargetTabs = document.getElementById('copy-target-tabs');
 const paletteList = document.getElementById('palette-list');
 const paletteMessage = document.getElementById('palette-message');
 
@@ -11,10 +12,13 @@ let selectedIndex = 0;
 let copyMode = 'current';
 
 document.title = chrome.i18n.getMessage('actionTitle') || 'URL Copier';
+document.documentElement.lang = chrome.i18n.getUILanguage().startsWith('ja') ? 'ja' : 'en';
 
 currentTabBtn.textContent = chrome.i18n.getMessage('currentTabBtn') || 'Current Tab';
 allTabsBtn.textContent = chrome.i18n.getMessage('copyAllTabs') || 'Copy All Tabs';
 optionsBtn.textContent = chrome.i18n.getMessage('openOptionsBtn') || 'Options';
+copyTargetTabs.setAttribute('aria-label', chrome.i18n.getMessage('copyTargetTablistLabel') || 'Select copy target');
+paletteList.setAttribute('aria-label', chrome.i18n.getMessage('templateListLabel') || 'Template list');
 
 currentTabBtn.addEventListener('click', () => setCopyMode('current'));
 allTabsBtn.addEventListener('click', () => setCopyMode('all'));

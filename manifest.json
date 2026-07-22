@@ -10,9 +10,7 @@
     "windows",
     "offscreen",
     "clipboardWrite",
-    "notifications",
-    "scripting",
-    "activeTab"
+    "notifications"
   ],
   "background": {
     "service_worker": "background.js"

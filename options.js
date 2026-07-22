@@ -65,10 +65,15 @@ async function restoreOptions() {
 function updateSlotSelects(templates, slot1Id, slot2Id) {
     const slot1Select = document.getElementById('slot1-select');
     const slot2Select = document.getElementById('slot2-select');
+    const noneLabel = chrome.i18n.getMessage('slotNoneOption') || '(None)';
 
     // Helper to populate a select element
     const populate = (select, selectedId) => {
-        select.innerHTML = '<option value="">(None)</option>';
+        select.innerHTML = '';
+        const noneOption = document.createElement('option');
+        noneOption.value = '';
+        noneOption.textContent = noneLabel;
+        select.appendChild(noneOption);
         templates.forEach(t => {
             const option = document.createElement('option');
             option.value = t.id;
