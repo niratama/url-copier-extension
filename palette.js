@@ -14,6 +14,12 @@ let copyMode = 'current';
 document.title = chrome.i18n.getMessage('actionTitle') || 'URL Copier';
 document.documentElement.lang = chrome.i18n.getUILanguage().startsWith('ja') ? 'ja' : 'en';
 
+// Localization for data-i18n attributes
+document.querySelectorAll('[data-i18n]').forEach(elem => {
+    const msg = chrome.i18n.getMessage(elem.getAttribute('data-i18n'));
+    if (msg) elem.textContent = msg;
+});
+
 currentTabBtn.textContent = chrome.i18n.getMessage('currentTabBtn') || 'Current Tab';
 allTabsBtn.textContent = chrome.i18n.getMessage('copyAllTabs') || 'Copy All Tabs';
 optionsBtn.textContent = chrome.i18n.getMessage('openOptionsBtn') || 'Options';

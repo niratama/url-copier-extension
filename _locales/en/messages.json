@@ -11,6 +11,14 @@
         "message": "Copy All Tabs",
         "description": "Context menu item to copy all tabs"
     },
+    "currentTabBtn": {
+        "message": "Current Tab",
+        "description": "Button text for current tab copy"
+    },
+    "openOptionsBtn": {
+        "message": "Options",
+        "description": "Button text to open options page"
+    },
     "optionsTitle": {
         "message": "URL Copier Options",
         "description": "Title of the options page"
@@ -122,14 +130,6 @@
     "paletteLoading": {
         "message": "Loading...",
         "description": "Loading text shown while the palette initializes"
-    },
-    "openOptionsBtn": {
-        "message": "Options",
-        "description": "Button label for opening options"
-    },
-    "currentTabBtn": {
-        "message": "Copy Current Tab",
-        "description": "Button label for selecting the current tab mode"
     },
     "copyTargetTablistLabel": {
         "message": "Select copy target",
