@@ -77,7 +77,10 @@ async function copyAllTabsInWindow(windowId, templateId) {
     if (!template) return;
 
     const tabs = await chrome.tabs.query({ windowId });
-    const text = tabs.map(tab => formatString(template.format, tab.title, tab.url)).join('\n');
+    const validTabs = tabs.filter(tab => tab && tab.url && !isRestrictedUrl(tab.url));
+    const text = validTabs
+        .map(tab => formatString(template.format, tab.title || tab.url || '', tab.url))
+        .join('\n');
     await addToClipboard(text);
 }
 
