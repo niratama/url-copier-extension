@@ -165,7 +165,10 @@ async function setupOffscreenDocument(path) {
             reasons: ['CLIPBOARD'],
             justification: 'To copy text to clipboard',
         });
+    }
+    try {
         await creating;
+    } finally {
         creating = null;
     }
 }
