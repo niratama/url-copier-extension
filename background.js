@@ -45,24 +45,23 @@ async function openPalette({ sourceTabId, windowId }) {
 }
 
 async function copyTab(tab, templateId) {
+    if (!tab || isRestrictedUrl(tab.url)) {
+        return;
+    }
+
     const { templates } = await chrome.storage.sync.get('templates');
     const currentTemplates = templates || DEFAULT_TEMPLATES;
     const template = currentTemplates.find(t => t.id === templateId);
 
     if (template) {
-        const text = formatString(template.format, tab.title, tab.url);
+        const text = formatString(template.format, tab.title || tab.url || '', tab.url);
         await addToClipboard(text);
     } else {
         chrome.notifications.create({
             type: 'basic',
             iconUrl: 'icon.png',
             title: chrome.i18n.getMessage('extName'),
-            message: chrome.i18n.getMessage('paletteNoTemplates') // Reusing "No templates found" or similar, or just generic error.
-            // Actually, let's use a more specific message if possible, or fallback to a generic one.
-            // Since we don't have a specific "Template not found" message key yet, let's use a generic one or add one.
-            // For now, I'll use a hardcoded fallback or reuse 'copyErrorMsg' with context?
-            // Let's stick to existing keys to avoid breaking i18n if I don't want to edit json files again.
-            // 'paletteNoTemplates' is "No templates found.", which is close enough.
+            message: chrome.i18n.getMessage('paletteNoTemplates')
         });
     }
 }
