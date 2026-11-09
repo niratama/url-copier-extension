@@ -6,7 +6,7 @@ A Chrome extension that allows you to copy the URL and Title of the current tab 
 
 ## Features
 
-- **Customizable Templates**: Define your own formats using `{{title}}` and `{{url}}` placeholders.
+- **Customizable Templates**: Define your own formats using typed placeholders like `{{title:markdown}}`, `{{url:html}}`, and `{{title:text}}` (legacy `{{title}}` / `{{url}}` still work for compatibility).
 - **Popup Menu Access**: Click the extension icon to open a popup menu for template selection.
 - **Copy Target Tabs**: Switch between **Copy Current Tab** and **Copy All Tabs** from tabs in the popup.
 - **Options Shortcut**: Open the Options page directly from the popup's **Options** button.
@@ -19,14 +19,14 @@ A Chrome extension that allows you to copy the URL and Title of the current tab 
 
 ## Default Templates
 
-- **Markdown**: `[{{title}}]({{url}})`
-- **Markdown 2**: `{{title}} <{{url}}>`
-- **HTML**: `<a href="{{url}}">{{title}}</a>`
-- **Text**: `{{title}} {{url}}`
+- **Markdown**: `[{{title:markdown}}]({{url:markdown}})`
+- **Markdown 2**: `{{title:markdown}} <{{url:markdown}}>`
+- **HTML**: `<a href="{{url:html}}">{{title:html}}</a>`
+- **Text**: `{{title:text}} {{url:text}}`
 - **Two line text**:
   ```
-  {{title}}
-  {{url}}
+  {{title:text}}
+  {{url:text}}
   ```
 
 ## Installation
@@ -54,6 +54,21 @@ To regenerate them, run:
 3.  Select a template to run copy for the currently selected target.
 4.  Use the popup **Options** button (or the extension options screen) to add, edit, or delete templates.
 5.  **Keyboard Shortcuts**: Use `Alt+P` to open the popup. Inside the popup, use `Left`/`Right` to switch target tabs, `Up`/`Down` to move through templates, `Enter` to copy, and `Esc` to close. You can also configure `Alt+1` and `Alt+2` in the Options page for your favorite templates.
+
+## Tests
+
+This project includes unit tests for:
+
+- template formatting/escaping logic in [formatter.js](./formatter.js)
+- legacy default template migration logic in [constants.js](./constants.js)
+
+The tests use Node's built-in test runner.
+
+Run tests:
+
+```powershell
+npm test
+```
 
 ## License
 

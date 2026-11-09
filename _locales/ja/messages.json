@@ -24,16 +24,8 @@
         "description": "Title of the options page"
     },
     "optionsHelp": {
-        "message": "プレースホルダーとして $TITLE$ と $URL$ が使えます。",
-        "description": "Help text in options page",
-        "placeholders": {
-            "title": {
-                "content": "{{title}}"
-            },
-            "url": {
-                "content": "{{url}}"
-            }
-        }
+        "message": "{{title:markdown}}、{{url:html}}、{{title:text}} のような型付きプレースホルダーが使えます。互換性のため従来の {{title}} / {{url}} も使えます。",
+        "description": "Help text in options page"
     },
     "addTemplateBtn": {
         "message": "+ テンプレートを追加",
@@ -56,7 +48,7 @@
         "description": "Placeholder for template name input"
     },
     "formatPlaceholder": {
-        "message": "フォーマット (例: [{{title}}]({{url}}))",
+        "message": "フォーマット (例: [{{title:markdown}}]({{url:markdown}}))",
         "description": "Placeholder for format input"
     },
     "savedMsg": {

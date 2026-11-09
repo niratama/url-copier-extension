@@ -1,11 +1,13 @@
-importScripts('constants.js');
+importScripts('constants.js', 'formatter.js');
+const { formatString } = UrlCopierFormatter;
 
 // Initialize extension
 chrome.runtime.onInstalled.addListener(async () => {
     // Initialize storage with defaults if empty
     const { templates } = await chrome.storage.sync.get('templates');
-    if (!templates) {
-        await chrome.storage.sync.set({ templates: DEFAULT_TEMPLATES });
+    const migratedTemplates = migrateLegacyDefaultTemplates(templates || DEFAULT_TEMPLATES);
+    if (!templates || JSON.stringify(templates) !== JSON.stringify(migratedTemplates)) {
+        await chrome.storage.sync.set({ templates: migratedTemplates });
     }
 
     // Initialize last used template
@@ -50,7 +52,7 @@ async function copyTab(tab, templateId) {
     }
 
     const { templates } = await chrome.storage.sync.get('templates');
-    const currentTemplates = templates || DEFAULT_TEMPLATES;
+    const currentTemplates = migrateLegacyDefaultTemplates(templates || DEFAULT_TEMPLATES);
     const template = currentTemplates.find(t => t.id === templateId);
 
     if (template) {
@@ -68,7 +70,7 @@ async function copyTab(tab, templateId) {
 
 async function copyAllTabsInWindow(windowId, templateId) {
     const { templates } = await chrome.storage.sync.get('templates');
-    const currentTemplates = templates || DEFAULT_TEMPLATES;
+    const currentTemplates = migrateLegacyDefaultTemplates(templates || DEFAULT_TEMPLATES);
 
     const targetId = templateId || (currentTemplates[0] ? currentTemplates[0].id : 'markdown');
     const template = currentTemplates.find(t => t.id === targetId);
@@ -81,14 +83,6 @@ async function copyAllTabsInWindow(windowId, templateId) {
         .map(tab => formatString(template.format, tab.title || tab.url || '', tab.url))
         .join('\n');
     await addToClipboard(text);
-}
-
-function formatString(format, title, url) {
-    const replacements = {
-        '{{title}}': title,
-        '{{url}}': url
-    };
-    return format.replace(/{{title}}|{{url}}/g, match => replacements[match]);
 }
 
 // Clipboard Helper using Offscreen Document
@@ -131,7 +125,7 @@ chrome.commands.onCommand.addListener(async (command) => {
     } else if (command === 'copy-slot-1' || command === 'copy-slot-2') {
         const slotKey = command === 'copy-slot-1' ? 'slot1TemplateId' : 'slot2TemplateId';
         const result = await chrome.storage.sync.get([slotKey, 'templates']);
-        const templates = result.templates || DEFAULT_TEMPLATES;
+        const templates = migrateLegacyDefaultTemplates(result.templates || DEFAULT_TEMPLATES);
         const templateId = result[slotKey];
 
         if (templateId) {

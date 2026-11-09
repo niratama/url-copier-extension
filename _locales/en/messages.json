@@ -24,16 +24,8 @@
         "description": "Title of the options page"
     },
     "optionsHelp": {
-        "message": "Use $TITLE$ and $URL$ as placeholders.",
-        "description": "Help text in options page",
-        "placeholders": {
-            "title": {
-                "content": "{{title}}"
-            },
-            "url": {
-                "content": "{{url}}"
-            }
-        }
+        "message": "Use typed placeholders such as {{title:markdown}}, {{url:html}}, and {{title:text}}. Legacy {{title}} / {{url}} also work for compatibility.",
+        "description": "Help text in options page"
     },
     "addTemplateBtn": {
         "message": "+ Add Template",
@@ -56,7 +48,7 @@
         "description": "Placeholder for template name input"
     },
     "formatPlaceholder": {
-        "message": "Format (e.g. [{{title}}]({{url}}))",
+        "message": "Format (e.g. [{{title:markdown}}]({{url:markdown}}))",
         "description": "Placeholder for format input"
     },
     "savedMsg": {

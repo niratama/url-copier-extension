@@ -6,7 +6,7 @@ URL Copier is a powerful productivity tool that lets you copy the current tab's 
 
 ## Key Features
 *   **Multiple Formats**: Comes with built-in templates for Markdown, HTML, and Plain Text.
-*   **Custom Templates**: Create your own formats using `{{title}}` and `{{url}}` placeholders.
+*   **Custom Templates**: Create your own formats using typed placeholders like `{{title:markdown}}`, `{{url:html}}`, and `{{title:text}}` (legacy `{{title}}` / `{{url}}` still work for compatibility).
 *   **Command Palette**: Press `Alt+P` to open a VSCode-style command palette to quickly search and select templates.
 *   **Keyboard Shortcuts**:
     *   `Alt+C`: Copy using the last used template.
